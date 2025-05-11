@@ -1,0 +1,48 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useAccount, useConnect } from "wagmi";
+import { injected } from 'wagmi/connectors';
+
+export default function Pay() {
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect({ connector: injected() });
+
+  const [successTime, setSuccessTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isConnected) {
+      connect(); // Prompt wallet connection
+      return;
+    }
+
+    fetch("/collect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ address }),
+    }).then(async (res) => {
+      const result = await res.json();
+      if (result.transactionUrl) {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        setSuccessTime(timeString);
+      }
+    });
+  }, [isConnected, address]);
+
+  return (
+    <div className="text-center p-8">
+      {successTime ? (
+        <div className="bg-green-100 p-6 rounded shadow text-green-800 max-w-md mx-auto">
+          <h2 className="text-xl font-bold mb-2">✅ Success!</h2>
+          <p>You made an arcade payment at: <strong>{successTime}</strong></p>
+        </div>
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold">Processing Payment...</h1>
+          <p>Please confirm the transaction in your wallet if prompted.</p>
+        </>
+      )}
+    </div>
+  );
+}
