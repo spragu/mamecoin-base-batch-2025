@@ -48,8 +48,8 @@ export default function Subscribe() {
     const spendPermission = {
       account: accountAddress, // User wallet address
       spender: process.env.NEXT_PUBLIC_SPENDER_ADDRESS! as Address, // Spender smart contract wallet address
-      token: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE" as Address, // ETH (https://eips.ethereum.org/EIPS/eip-7528)
-      allowance: parseUnits("0.01", 18),
+      token: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as Address, // usdc sepolia
+      allowance: parseUnits("1", 6),
       period: 86400, // seconds in a day
       start: Math.ceil(Date.now() / 1000), // unix timestamp
       end: Math.ceil(Date.now() / 1000) + 7 * 68400, // 281474976710655, // max uint48

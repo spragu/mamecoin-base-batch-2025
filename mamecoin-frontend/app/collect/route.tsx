@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       address: spendPermissionManagerAddress,
       abi: spendPermissionManagerAbi,
       functionName: "spend",
-      args: [spendPermission, "1"],
+      args: [spendPermission, "10000"],
     });
  
     const spendReceipt = await publicClient.waitForTransactionReceipt({
