@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 // import { injected } from 'wagmi/connectors';
 import Image from 'next/image'
+import UsdcBalance from "../components/UsdcBalance";
 
 export default function Pay() {
   const { address, isConnected } = useAccount();
@@ -42,6 +43,7 @@ export default function Pay() {
             />
           <h2 className="text-xl font-bold mb-2">✅ Success!</h2>
           <p>You made an arcade payment at: <strong>{successTime}</strong></p>
+          <UsdcBalance />  
         </div>
       ) : (
         <>
