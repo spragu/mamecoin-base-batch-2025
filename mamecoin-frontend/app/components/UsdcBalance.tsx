@@ -10,7 +10,7 @@ const UsdcBalance = () => {
     address,
     token: USDC_ADDRESS as `0x${string}`,
     query: {
-      refetchInterval: 1000, // poll every .25 seconds
+      refetchInterval: 1000, // poll every 1 second
     },
   });
 
