@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
 import { injected } from 'wagmi/connectors';
+import Image from 'next/image'
 
 export default function Pay() {
   const { address, isConnected } = useAccount();
@@ -34,6 +35,11 @@ export default function Pay() {
     <div className="text-center p-8">
       {successTime ? (
         <div className="bg-green-100 p-6 rounded shadow text-green-800 max-w-md mx-auto">
+            <Image 
+            src="/images/payment-accepted.png" alt="Logo"
+            width={800}
+            height={500}
+            />
           <h2 className="text-xl font-bold mb-2">✅ Success!</h2>
           <p>You made an arcade payment at: <strong>{successTime}</strong></p>
         </div>
