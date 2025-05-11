@@ -16,6 +16,7 @@ import {
 } from '@coinbase/onchainkit/identity';
 import ImageSvg from './svg/Image';
 import Subscribe from './components/Subscribe';
+import UsdcBalance from './components/UsdcBalance';
 
 // const components = [
 //   {
@@ -73,7 +74,9 @@ export default function App() {
             <ImageSvg />
           </div>
           <div className="flex justify-center mb-6">
+            <UsdcBalance />
             <Subscribe />
+            
           </div>
         </div>
       </main>
