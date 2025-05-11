@@ -17,6 +17,7 @@ export default function Subscribe() {
   const [signature, setSignature] = useState<Hex>();
   const [transactions, setTransactions] = useState<Hex[]>([]);
   const [spendPermission, setSpendPermission] = useState<object>();
+  const [amount, setAmount] = useState<number>(1);            // ← new state
 
   const { signTypedDataAsync } = useSignTypedData();
   const account = useAccount();
@@ -31,9 +32,12 @@ export default function Subscribe() {
     enabled: !!signature,
   });
 
+  // When the user clicks “Subscribe”
   async function handleSubmit() {
     setIsDisabled(true);
-    let accountAddress = account?.address;
+
+    // ensure we have an address
+    let accountAddress = account.address;
     if (!accountAddress) {
       try {
         const requestAccounts = await connectAsync({
@@ -41,28 +45,30 @@ export default function Subscribe() {
         });
         accountAddress = requestAccounts.accounts[0];
       } catch {
+        setIsDisabled(false);
         return;
       }
     }
 
+    // Build permission with dynamic amount
     const spendPermission = {
-      account: accountAddress, // User wallet address
-      spender: process.env.NEXT_PUBLIC_SPENDER_ADDRESS! as Address, // Spender smart contract wallet address
-      token: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as Address, // usdc sepolia
-      allowance: parseUnits("1", 6),
-      period: 86400, // seconds in a day
-      start: Math.ceil(Date.now() / 1000), // unix timestamp
-      end: Math.ceil(Date.now() / 1000) + 7 * 68400, // 281474976710655, // max uint48
-      salt: BigInt(0),
-      extraData: "0x" as Hex,
-    };
+        account: accountAddress as Address,
+        spender: process.env.NEXT_PUBLIC_SPENDER_ADDRESS! as Address,
+        token: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as Address,
+        allowance: parseUnits(amount.toString(), 6),  // ← use `amount`
+        period: 86400,
+        start: 0,
+        end: 281474976710655,
+        salt: BigInt(0),
+        extraData: "0x" as Hex,
+      };
 
     try {
-      const signature = await signTypedDataAsync({
+      const sig = await signTypedDataAsync({
         domain: {
           name: "Spend Permission Manager",
           version: "1",
-          chainId: chainId,
+          chainId: chainId!,
           verifyingContract: spendPermissionManagerAddress,
         },
         types: {
@@ -82,119 +88,116 @@ export default function Subscribe() {
         message: spendPermission,
       });
       setSpendPermission(spendPermission);
-      setSignature(signature);
+      setSignature(sig);
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsDisabled(false);
     }
-    setIsDisabled(false);
   }
 
+  // same as before
   async function handleCollectSubscription() {
     setIsDisabled(true);
-    let data;
     try {
-      const replacer = (key: string, value: any) => {
-        if (typeof value === "bigint") {
-          return value.toString();
-        }
-        return value;
-      };
-      const response = await fetch("/collect", {
+      const replacer = (_: string, value: any) =>
+        typeof value === "bigint" ? value.toString() : value;
+
+      const res = await fetch("/subscribe", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(
-          {
-            spendPermission,
-            signature,
-            dummyData: Math.ceil(Math.random() * 100),
-          },
-          replacer
-        ),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ spendPermission, signature }, replacer),
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      data = await response.json();
+      if (!res.ok) throw new Error("Network response was not ok");
+      const json = await res.json();
+      return json;
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsDisabled(false);
     }
-    setIsDisabled(false);
-    return data;
   }
 
   useEffect(() => {
-    if (!data) return;
-    setTransactions([data?.transactionHash, ...transactions]);
+    if (data) {
+      setTransactions((txs) => [data.transactionHash, ...txs]);
+    }
   }, [data]);
 
   return (
-    <div>
+    <div className="space-y-6 w-[450px]">
       {!signature ? (
-        <div className="flex w-[450px]">
+        <>
+          {/* New: amount selector */}
+          <label className="block text-sm font-medium">
+            Choose subscription (USDC/day):
+<select
+  value={amount}
+  onChange={(e) => setAmount(Number(e.target.value))}
+  disabled={isDisabled}
+  className={cn(
+    pressable.primary,
+    "w-full rounded-xl px-4 py-3 font-medium text-base leading-6",
+    isDisabled && pressable.disabled,
+    text.headline,
+    color.inverse  // makes the text white
+  )}
+>
+  {[1, 5, 10, 20].map((opt) => (
+    <option key={opt} value={opt}>
+      {opt} USDC
+    </option>
+  ))}
+</select>
+          </label>
+
+          {/* Subscribe button */}
           <button
             className={cn(
               pressable.primary,
-              "w-full rounded-xl",
-              "px-4 py-3 font-medium text-base text-white leading-6",
+              "w-full rounded-xl px-4 py-3 font-medium text-base text-white leading-6",
               isDisabled && pressable.disabled,
               text.headline
             )}
             onClick={handleSubmit}
-            type="button"
             disabled={isDisabled}
             data-testid="ockTransactionButton_Button"
           >
-            <span
-              className={cn(
-                text.headline,
-                color.inverse,
-                "flex justify-center"
-              )}
-            >
-              Subscribe
+            <span className={cn(text.headline, color.inverse, "flex justify-center")}>
+              Subscribe {amount} USDC
             </span>
           </button>
-        </div>
+        </>
       ) : (
-        <div className="space-y-8 w-[450px]">
-          <div className="flex">
-            <button
-              className={cn(
-                pressable.primary,
-                "w-full rounded-xl",
-                "px-4 py-3 font-medium text-base text-white leading-6",
-                isDisabled && pressable.disabled,
-                text.headline
-              )}
-              onClick={() => refetch()}
-              type="button"
-              disabled={isDisabled}
-              data-testid="collectSubscriptionButton_Button"
-            >
-              <span
-                className={cn(
-                  text.headline,
-                  color.inverse,
-                  "flex justify-center"
-                )}
-              >
-                Collect
-              </span>
-            </button>
-          </div>
-          <div className="h-80 space-y-4 relative">
+        // ... your existing “Collect” UI ...
+        <div className="space-y-8">
+          <button
+            className={cn(
+              pressable.primary,
+              "w-full rounded-xl px-4 py-3 font-medium text-base text-white leading-6",
+              isDisabled && pressable.disabled,
+              text.headline
+            )}
+            onClick={() => refetch()}
+            disabled={isDisabled}
+            data-testid="collectSubscriptionButton_Button"
+          >
+            <span className={cn(text.headline, color.inverse, "flex justify-center")}>
+              Collect
+            </span>
+          </button>
+          <div className="h-80 space-y-4">
             <div className="text-lg font-bold">Subscription Payments</div>
             <div className="flex flex-col">
-              {transactions.map((transactionHash, i) => (
+              {transactions.map((tx, i) => (
                 <a
                   key={i}
                   className="hover:underline text-ellipsis truncate"
                   target="_blank"
-                  href={`https://sepolia.basescan.org/tx/${transactionHash}`}
+                  rel="noopener noreferrer"
+                  href={`https://sepolia.basescan.org/tx/${tx}`}
                 >
-                  View transaction {transactionHash}
+                  View transaction {tx}
                 </a>
               ))}
             </div>

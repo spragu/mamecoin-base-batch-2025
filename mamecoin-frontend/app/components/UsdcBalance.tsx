@@ -21,9 +21,9 @@ const UsdcBalance = () => {
   const balance = parseFloat(formatUnits(data.value, 6)).toFixed(2);
 
   return (
-    <p>
+    <h1>
       USDC Balance: <strong>{balance}</strong>
-    </p>
+    </h1>
   );
 };
 
