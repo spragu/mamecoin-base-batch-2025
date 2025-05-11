@@ -41,9 +41,10 @@ export default function Pay() {
             width={800}
             height={500}
             />
-          <h2 className="text-xl font-bold mb-2">✅ Success!</h2>
-          <p>You made an arcade payment at: <strong>{successTime}</strong></p>
-          <UsdcBalance />  
+            <h2 className="text-xl font-bold mb-2">🎉 Such Success!</h2>
+            <p>💸 You did an arcade wow at <strong>{successTime}</strong></p>
+            <UsdcBalance />
+            <p>🔥 Very payment. So coin. Wow.</p>
         </div>
       ) : (
         <>

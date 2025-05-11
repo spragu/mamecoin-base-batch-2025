@@ -22,7 +22,7 @@ const UsdcBalance = () => {
 
   return (
     <h1>
-      USDC Balance: <strong>{balance}</strong>
+      🪙 USDC Balance: <strong>{balance}</strong>
     </h1>
   );
 };
