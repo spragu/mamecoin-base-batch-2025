@@ -55,7 +55,7 @@ export default function Subscribe() {
         account: accountAddress as Address,
         spender: process.env.NEXT_PUBLIC_SPENDER_ADDRESS! as Address,
         token: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as Address,
-        allowance: parseUnits(amount.toString(), 6),  // ← use `amount`
+        allowance: parseUnits("1.00", 6),  // ← use `amount`
         period: 86400,
         start: 0,
         end: 281474976710655,
@@ -100,7 +100,7 @@ export default function Subscribe() {
   async function handleCollectSubscription() {
     setIsDisabled(true);
     try {
-      const replacer = (_: string, value: any) =>
+      const replacer = (_: string, value: unknown) =>
         typeof value === "bigint" ? value.toString() : value;
 
       const res = await fetch("/subscribe", {

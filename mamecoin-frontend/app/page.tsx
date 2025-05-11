@@ -17,7 +17,6 @@ import {
 import Image from 'next/image'
 import Subscribe from './components/Subscribe';
 import UsdcBalance from './components/UsdcBalance';
-import { useAccount } from 'wagmi';
 
 // const components = [
 //   {
@@ -37,7 +36,6 @@ import { useAccount } from 'wagmi';
 // ];
 
 export default function App() {
-  const { isConnected } = useAccount();
   return (
     <div className="flex flex-col min-h-screen font-sans dark:bg-background dark:text-white bg-white text-black">
       <main className="flex-grow flex items-center justify-center">

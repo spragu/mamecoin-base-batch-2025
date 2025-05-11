@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAccount, useConnect } from "wagmi";
-import { injected } from 'wagmi/connectors';
+import { useAccount } from "wagmi";
+// import { injected } from 'wagmi/connectors';
 import Image from 'next/image'
 
 export default function Pay() {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect({ connector: injected() });
+//   const { connect } = useConnect({ connector: injected() });
 
   const [successTime, setSuccessTime] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isConnected) {
-      connect(); // Prompt wallet connection
-      return;
-    }
+    // if (!isConnected) {
+    //   connect(); // Prompt wallet connection
+    //   return;
+    // }
 
     fetch("/collect", {
       method: "POST",

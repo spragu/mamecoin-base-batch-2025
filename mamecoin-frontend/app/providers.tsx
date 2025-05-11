@@ -13,7 +13,7 @@ const config = createConfig({
       preference: process.env.NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG as
         | "smartWalletOnly"
         | "all",
-      // @ts-ignore
+      // @ts-expect-error why must i explain an error
       keysUrl: "https://keys-dev.coinbase.com/connect"
     }),
   ],
