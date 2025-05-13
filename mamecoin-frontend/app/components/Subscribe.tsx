@@ -173,45 +173,16 @@ const [modalMessage, setModalMessage] = useState("");
           </button>
         </>
       ) : (
-        // ... your existing “Collect” UI ...
         <div className="space-y-8">
-          {/* <button
-            className={cn(
-              pressable.primary,
-              "w-full rounded-xl px-4 py-3 font-medium text-base text-white leading-6",
-              isDisabled && pressable.disabled,
-              text.headline
-            )}
-            onClick={() => refetch()}
-            disabled={isDisabled}
-            data-testid="collectSubscriptionButton_Button"
-          >
-            <span className={cn(text.headline, color.inverse, "flex justify-center")}>
-              Collect
-            </span>
-          </button> */}
           <div className="h-80 space-y-4">
             {showModal && (
-  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm text-center space-y-4">
-      <h2 className="text-2xl font-bold">Such Success! 🎯</h2>
-      <p className="text-lg whitespace-pre-line text-gray-800">{modalMessage}</p>
-    </div>
-  </div>
-)}
-            {/* <div className="flex flex-col">
-              {transactions.map((tx, i) => (
-                <a
-                  key={i}
-                  className="hover:underline text-ellipsis truncate"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={`https://sepolia.basescan.org/tx/${tx}`}
-                >
-                  View transaction {tx}
-                </a>
-              ))}
-            </div> */}
+                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm text-center space-y-4">
+                    <h2 className="text-2xl text-gray-800 font-bold">Such Success! 🎯</h2>
+                    <p className="text-lg whitespace-pre-line text-gray-800">{modalMessage}</p>
+                    </div>
+                </div>
+            )}
           </div>
         </div>
       )}
