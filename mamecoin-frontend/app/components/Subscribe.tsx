@@ -15,7 +15,6 @@ import { spendPermissionManagerAddress } from "@/lib/abi/SpendPermissionManager"
 export default function Subscribe() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [signature, setSignature] = useState<Hex>();
-  const [transactions, setTransactions] = useState<Hex[]>([]);
   const [spendPermission, setSpendPermission] = useState<object>();
   const [amount, setAmount] = useState<number>(1);            // ← new state
 
@@ -25,7 +24,10 @@ export default function Subscribe() {
   const { connectAsync } = useConnect();
   const connectors = useConnectors();
 
-  const { data, refetch } = useQuery({
+  const [showModal, setShowModal] = useState(false);
+const [modalMessage, setModalMessage] = useState("");
+
+  const { data } = useQuery({
     queryKey: ["collectSubscription"],
     queryFn: handleCollectSubscription,
     refetchOnWindowFocus: false,
@@ -120,7 +122,9 @@ export default function Subscribe() {
 
   useEffect(() => {
     if (data) {
-      setTransactions((txs) => [data.transactionHash, ...txs]);
+      // Show modal instead of pushing tx
+      setModalMessage("✅ Spending permission has been allocated\nTime to TAP. PAY. PLAY. \nYou can close this window/tab");
+      setShowModal(true);
     }
   }, [data]);
 
@@ -164,14 +168,14 @@ export default function Subscribe() {
             data-testid="ockTransactionButton_Button"
           >
             <span className={cn(text.headline, color.inverse, "flex justify-center")}>
-              Subscribe {amount} USDC
+              Allocate {amount} USDC to arcade spending limit
             </span>
           </button>
         </>
       ) : (
         // ... your existing “Collect” UI ...
         <div className="space-y-8">
-          <button
+          {/* <button
             className={cn(
               pressable.primary,
               "w-full rounded-xl px-4 py-3 font-medium text-base text-white leading-6",
@@ -185,10 +189,17 @@ export default function Subscribe() {
             <span className={cn(text.headline, color.inverse, "flex justify-center")}>
               Collect
             </span>
-          </button>
+          </button> */}
           <div className="h-80 space-y-4">
-            <div className="text-lg font-bold">Subscription Payments</div>
-            <div className="flex flex-col">
+            {showModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+    <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm text-center space-y-4">
+      <h2 className="text-2xl font-bold">Such Success! 🎯</h2>
+      <p className="text-lg whitespace-pre-line text-gray-800">{modalMessage}</p>
+    </div>
+  </div>
+)}
+            {/* <div className="flex flex-col">
               {transactions.map((tx, i) => (
                 <a
                   key={i}
@@ -200,7 +211,7 @@ export default function Subscribe() {
                   View transaction {tx}
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       )}

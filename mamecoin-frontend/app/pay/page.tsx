@@ -42,9 +42,9 @@ export default function Pay() {
             height={500}
             />
             <h2 className="text-xl font-bold mb-2">🎉 Such Success!</h2>
-            <p>💸 You did an arcade wow at <strong>{successTime}</strong></p>
-            <UsdcBalance />
-            <p>🔥 Very payment. So coin. Wow.</p>
+                <p>💸 You did an arcade wow at <strong>{successTime}</strong></p>
+                <UsdcBalance />
+                <p>🔥 Very payment. So coin. Wow.</p>
         </div>
       ) : (
         <>
