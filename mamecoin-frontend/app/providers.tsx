@@ -1,12 +1,12 @@
 'use client';
 
-import { base, baseSepolia } from 'wagmi/chains';
+import { base } from 'wagmi/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type { ReactNode } from 'react';
 import { cookieStorage, createConfig, createStorage, http, State, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 const config = createConfig({
-  chains: [baseSepolia],
+  chains: [base],
   connectors: [
     coinbaseWallet({
       appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
@@ -14,7 +14,7 @@ const config = createConfig({
         | "smartWalletOnly"
         | "all",
       // @ts-expect-error why must i explain an error
-      keysUrl: "https://keys-dev.coinbase.com/connect"
+      keysUrl: "https://keys.coinbase.com/connect"
     }),
   ],
   storage: createStorage({
@@ -22,7 +22,7 @@ const config = createConfig({
   }),
   ssr: true,
   transports: {
-    [baseSepolia.id]: http(),
+    [base.id]: http(),
   },
 });
 export function Providers(props: {
@@ -33,6 +33,7 @@ export function Providers(props: {
     <WagmiProvider config={config} initialState={props.initialState}>
     <OnchainKitProvider
       apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID} 
           chain={base}
           config={{ appearance: { 
             mode: 'auto',

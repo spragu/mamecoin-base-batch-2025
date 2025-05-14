@@ -1,7 +1,7 @@
 import { useAccount, useBalance } from 'wagmi';
 import { formatUnits } from 'viem';
 
-const USDC_ADDRESS = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"; // USDC on Base Sepolia
+const USDC_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // USDC on Base
 
 const UsdcBalance = () => {
   const { address, isConnected } = useAccount();
@@ -10,7 +10,7 @@ const UsdcBalance = () => {
     address,
     token: USDC_ADDRESS as `0x${string}`,
     query: {
-      refetchInterval: 1000, // poll every 1 second
+      refetchInterval: 5000, // poll every 1 second
     },
   });
 

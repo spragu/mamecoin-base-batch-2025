@@ -56,7 +56,7 @@ const [modalMessage, setModalMessage] = useState("");
     const spendPermission = {
         account: accountAddress as Address,
         spender: process.env.NEXT_PUBLIC_SPENDER_ADDRESS! as Address,
-        token: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as Address,
+        token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as Address,
         allowance: parseUnits("1.00", 6),  // ← use `amount`
         period: 86400,
         start: 0,

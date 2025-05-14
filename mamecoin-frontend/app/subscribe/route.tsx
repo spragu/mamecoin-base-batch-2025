@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       status: approvalReceipt.status ? "success" : "failure",
       transactionHash: approvalReceipt.transactionHash,
-      transactionUrl: `https://sepolia.basescan.org/tx/${approvalReceipt.transactionHash}`,
+      transactionUrl: `https://basescan.org/tx/${approvalReceipt.transactionHash}`,
     });
   } catch (error) {
     console.error(error);

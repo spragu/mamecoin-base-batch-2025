@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const spendPermission = {
       account: address as Address,
       spender: process.env.NEXT_PUBLIC_SPENDER_ADDRESS! as Address,
-      token: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as Address,
+      token: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as Address,
       allowance: "1000000",  // $1.00 USDC in 6 decimals
       period: 86400,
       start: 0,
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       status: spendReceipt.status ? "success" : "failure",
       transactionHash: spendReceipt.transactionHash,
-      transactionUrl: `https://sepolia.basescan.org/tx/${spendReceipt.transactionHash}`,
+      transactionUrl: `https://basescan.org/tx/${spendReceipt.transactionHash}`,
     });
   } catch (error) {
     console.error("Payment error:", error);
