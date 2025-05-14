@@ -30,7 +30,7 @@ export default function AppFlowModal() {
             🎟️ Approve a daily <strong>arcade pass</strong> so tiny payments go zoom 🚀.
           </li>
           <li>
-            📱 Tap your phone at a game and boom 💥 — <strong>Pay & Play</strong>, no wait!
+            📱 Tap your phone at a game and boom 💥 — <strong>Tap, Pay & Play</strong>, no wait!
           </li>
         </ol>
         <div className="text-center mt-6">
