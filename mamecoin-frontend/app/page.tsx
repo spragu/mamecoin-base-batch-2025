@@ -6,6 +6,8 @@ import {
   WalletDropdown,
   WalletDropdownLink,
   WalletDropdownDisconnect,
+  WalletAdvancedDefault,
+  WalletIsland,
 } from '@coinbase/onchainkit/wallet';
 import {
   Address,
@@ -54,8 +56,9 @@ export default function App() {
 
           <div className="flex justify-center mb-6">
             <div className="wallet-container">
-   
-                <Wallet>
+            <WalletAdvancedDefault />
+            {/* <WalletIsland /> */}
+                {/* <Wallet>
                   <ConnectWallet>
                     <Avatar className="h-6 w-6" />
                     <Name />
@@ -77,7 +80,7 @@ export default function App() {
                     </WalletDropdownLink>
                     <WalletDropdownDisconnect />
                   </WalletDropdown>
-                </Wallet>
+                </Wallet> */}
           
             </div>
           </div>
