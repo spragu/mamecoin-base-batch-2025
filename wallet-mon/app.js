@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { ethers } = require("ethers");
-
+const {PressVirtualCoin} = require("./coin.js");
 const USDC_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"; // Base Mainnet USDC
 
 // USDC ABI (simplified)
@@ -20,6 +20,7 @@ const main = async () => {
       console.log(`💰 Received USDC from ${from}`);
       console.log(`   Amount: ${ethers.formatUnits(value, 6)} USDC`);
       console.log(`   Tx Hash: ${event.transactionHash}`);
+      PressVirtualCoin();
     }
   });
 };
