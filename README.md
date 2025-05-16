@@ -2,7 +2,7 @@
 ![MameCoin Logo](./mamecoin-frontend/public/images/logo2.png)
 Our project entry for base batch na 2025
 # TLDR: what is MameCoin?
-MameCoin allows arcade owners retrofit crypto payments alongside their existing payment mechanisms for physical and digital arcade machines.
+MameCoin is a plug-and-play stablecoin payment system for arcades, enabling onchain seamless tap-to-play experiences through retrofitted NFC hardware and powered by Base.
 
 # High level user flow
 ```mermaid
