@@ -18,7 +18,7 @@ Onboard --> Onramp --> Subscribe --> Play
 # Physical Arcade tech
 **Microprocessor** (pi pico w) - Sets inside the machine & listens for incoming transactions to the arcade games wallet/contract and sends a coin insert pulse to the arcade machine when it detects a payment. Microprocessors are very cheap in bulk.
 
-**"Tap Pay Play sticker"**  - Has nfc sticker(s) with pre programmed payment url for each arcade machine. Can make any design you want and nfc stickers work underneath! This is passive tech that doesnt require any additional power/wiring from the arcade machine. Cheap and easy to replace. 
+**"Tap Pay Play sticker"**  - Has nfc sticker(s) with pre programmed payment url for each arcade machine. Can use any design you want and nfc stickers work underneath! This is passive tech that doesnt require any additional power/wiring from the arcade machine. Cheap and easy to replace. 
 
 # Frontend App
 This is where the user onboards and onramps. Created following (mostly) the tutorial from https://docs.base.org/identity/smart-wallet/guides/spend-permissions
